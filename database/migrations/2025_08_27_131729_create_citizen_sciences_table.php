@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('citizen_sciences', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->enum('type',["Seller", "Buyer"]);
-            $table->string('password');
-            $table->string('address');
-            $table->integer('locationId');
-            $table->rememberToken();
+            $table->string("title");
+            $table->string("description");
+            $table->string("media_url");
+            $table->date("submitted_at");
+            $table->boolean("verified");
+            $table->integer("userId");
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('citizen_sciences');
     }
 };

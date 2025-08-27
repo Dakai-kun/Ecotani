@@ -20,7 +20,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'type',
         'password',
+        'address',
+        'locationId'
     ];
 
     /**
@@ -44,5 +47,35 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function product()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function review()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class, "locationId");
+    }
+
+    public function CitizenScience()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function chat()
+    {
+        return $this->hasMany(Chat::class);
     }
 }
