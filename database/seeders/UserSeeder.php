@@ -21,5 +21,21 @@ class UserSeeder extends Seeder
             'address' => 'dirumah',
             'locationId' => '1'
         ]);
+        User::create([
+            'name' => 'jannah',
+            'email' => 'jannah@gmail.com',
+            'type' => 'seller',
+            'password' => 'jannah123',
+            'address' => 'dirumah',
+            'locationId' => '2'
+        ]);
+        User::create([
+            'name' => 'kummar',
+            'email' => 'kummar@gmail.com',
+            'type' => 'buyer',
+            'password' => 'kummar123',
+            'address' => 'diluar',
+            'locationId' => '1'
+        ]);
     }
 }

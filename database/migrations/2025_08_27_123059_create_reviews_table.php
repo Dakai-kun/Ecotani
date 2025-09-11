@@ -16,7 +16,7 @@ return new class extends Migration
             $table->float("rating");
             $table->string("comment");
             $table->integer("productId");
-            $table->integer("usertId");
+            $table->integer("userId");
             $table->timestamps();
         });
     }

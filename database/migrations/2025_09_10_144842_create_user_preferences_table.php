@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('citizen_sciences', function (Blueprint $table) {
+        Schema::create('user_preferences', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("location");
-            $table->double("weight");
-            $table->integer("userId");
+            $table->foreignId('user_id');
+            $table->string('value');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('citizen_sciences');
+        Schema::dropIfExists('user_preferences');
     }
 };

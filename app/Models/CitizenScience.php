@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class CitizenScience extends Model
 {
-    protected $fillbale = [
-        "title",
-        "description",
-        "media_url",
-        "submitted_at",
-        "verified",
+    protected $fillable = [
+        "name",
+        "location",
+        "weight",
         "userId"
     ];
 

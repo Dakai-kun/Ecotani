@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\UserPrefrence;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::latest()->paginate(5);
 
@@ -52,14 +54,38 @@ class ProductController extends Controller
             'userId' => $request->userId
         ]);
 
-        return new ProductResource(true, 'Data Product Bershasil Ditambahkan', $data);
+        $response = Http::withHeaders([
+            "Content-Type" => "application/json",
+            "Authorization" => "Bearer " . env('GROQ_API_KEY'),
+        ])->post("https://api.groq.com/openai/v1/chat/completions", [
+                    "model" => "llama-3.1-8b-instant",
+                    "input" => $data->name,
+                ]);
+
+        if ($response->successful()) {
+            $embedding = $response->json()['data'][0]['embedding'];
+
+            // 3. Update produk dengan embedding
+            $data->embedding = json_encode($embedding);
+            $data->save();
+        }
+
+        return response()->json([
+            'message' => 'Data Berhasil Ditambahkan!',
+            'success' => 200,
+            'data' => $data
+        ], 200);
     }
 
     public function show($id)
     {
         $product = Product::find($id);
 
-        return new ProductResource(true, 'Detail Data Product!', $product);
+        return response()->json([
+            'message' => 'Detail Data Product!',
+            'success' => 200,
+            'data' => $product
+        ], 200);
     }
 
     public function update(Request $request, $id)
@@ -128,7 +154,11 @@ class ProductController extends Controller
             ]);
         }
 
-        return new ProductResource(true, 'Data Product Berhasil Diubah!', $product);
+        return response()->json([
+            'message' => 'Data Berhasil Diubah!',
+            'success' => 200,
+            'data' => $product
+        ], 200);
     }
 
     public function destroy($id)
@@ -137,6 +167,10 @@ class ProductController extends Controller
         File::delete(public_path($product->image));
         $product->delete();
 
-        return new ProductResource(true, 'Data Berhasil Dihapus!', $product);
+        return response()->json([
+            'message' => 'Data Berhasil Dihapus!',
+            'success' => 200,
+            'data' => $product
+        ], 200);
     }
 }

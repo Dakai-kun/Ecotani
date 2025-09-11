@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -28,7 +29,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'type' => $request->type,
-            'password' => $request->password,
+            'password' => bcrypt($request->password),
             'address' => $request->address,
             'locationId' => $request->locationId
         ]);
@@ -44,7 +45,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        if (!auth()->attempt($request->only('name', 'email', 'password'))) {
+        if (!auth()->attempt($request->only('email', 'password'))) {
             return response()->json(['message' => 'Invalid login details'], 401);
         }
 
@@ -56,6 +57,17 @@ class AuthController extends Controller
             'auth_token' => $token,
             'token_type' => 'Bearer',
             'Data' => $user
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Logged out successfully!',
         ]);
     }
 }
