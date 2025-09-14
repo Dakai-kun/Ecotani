@@ -27,24 +27,30 @@ Sebelum menjalankan proyek ini, pastikan sudah terpasang di komputer kamu:
 ## ⚙️ Instalasi
 
 1. Clone repository
+   
    git clone https://github.com/Dakai-kun/Ecotani.git
    cd Ecotani
    
 2. Install dependensi Laravel
+ 
     composer install
 
 3. Install dependensi React (Vite)
+   
     cd frontend   # jika folder React ada di "frontend"
     npm install
    
 4. Salin file .env
+   
     cp .env.example .env
 
 5. Generate application key
+   
     php artisan key:generate
 
 🛠️ Konfigurasi
 1. Buka file .env dan sesuaikan:
+   
     APP_NAME=Ecotani
     APP_ENV=local
     APP_KEY=base64:xxxx
@@ -58,28 +64,35 @@ Sebelum menjalankan proyek ini, pastikan sudah terpasang di komputer kamu:
     DB_PASSWORD=
 
 2. Atur konfigurasi API (jika menggunakan AI, GROQ, atau OpenAI):
+   
     GROQ_API_KEY=your_api_key_here
 
 ▶️ Menjalankan Aplikasi
 1. Jalankan backend (Laravel):
+   
     php artisan serve
     Akan berjalan di: http://127.0.0.1:8000
 
 2. Jalankan frontend (React + Vite):
+   
     npm run dev
     Akan berjalan di: http://localhost:5173
 
 🗄️ Migrasi Database & Seeder
 1. Untuk membuat tabel database:
+   
     php artisan migrate
 
 2. Untuk isi data awal:
+   
     php artisan db:seed
 
 3. Jika perlu reset:
+   
     php artisan migrate:fresh --seed
 
 ✅ Testing
+
     php artisan test
 
 
